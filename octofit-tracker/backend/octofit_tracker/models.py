@@ -11,7 +11,7 @@ class Team(models.Model):
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='members')
+    team_name = models.CharField(max_length=100, blank=True, null=True)
     is_superhero = models.BooleanField(default=False)
     class Meta:
         db_table = 'users'
@@ -19,7 +19,7 @@ class User(models.Model):
         return self.email
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
+    user_email = models.EmailField()
     type = models.CharField(max_length=50)
     duration = models.PositiveIntegerField()
     date = models.DateField()
@@ -34,7 +34,7 @@ class Workout(models.Model):
         db_table = 'workouts'
 
 class Leaderboard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_email = models.EmailField()
     score = models.IntegerField()
     class Meta:
         db_table = 'leaderboard'
